@@ -39,7 +39,7 @@ runs:
       shell: bash
       run: |
         cd /usr/local/lib
-        curl -O http://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
+        sudo curl -O http://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
     
     - name: Set up Antlr4
       shell: bash
