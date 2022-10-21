@@ -21,4 +21,5 @@ jobs:
 
       - name: Check installation
         run: |
+          cat $(which antlr4)
           antlr4
