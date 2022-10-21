@@ -43,10 +43,11 @@ runs:
         cd /usr/local/lib
         sudo curl -O https://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
     
-    - name: Check content file
+    - name: Check file content type
       shell: bash
       run: |
         fileType=$(file -i /usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar)
+
         if [[ ! "$fileType"  =~ "application/java-archive" ]]; then
           echo "::error::File should be application/java-archive. Got: $fileType."
           exit 1
@@ -56,5 +57,5 @@ runs:
       shell: bash
       run: |
         export CLASSPATH=.:/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH
-        sudo printf '#!/usr/bin/env bash\n\njava -Xmx500M -cp "/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH" org.antlr.v4.Tool\n' > /usr/local/bin/antlr4
+        sudo printf '#!/usr/bin/env bash\n\njava -Xmx500M -cp "/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH" org.antlr.v4.Tool $*\n' > /usr/local/bin/antlr4
         sudo chmod ugo+x /usr/local/bin/antlr4
