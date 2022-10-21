@@ -6,13 +6,55 @@ branding:
   icon: play-circle
   color: gray-dark
 
+inputs:
+  antlr4-version:
+    description: Antlr version to install.
+    required: false
+    default: "4.11.1"
+  
+  setup-java:
+    description: Install JDK.
+    required: false
+    default: "true"
+
 runs:
   using: composite
   steps:
     - name: Update APT information
-      shell: bash -e {0}
+      shell: bash
       run: sudo apt update
     
+    - name: Set up JDK
+      if: inputs.setup-java
+      uses: actions/setup-java@v3
+      with:
+        java-version: "17"
+        distribution: temurin
+    
+    - name: Install dependencies
+      shell: bash
+      run: |
+        sudo apt install -y curl
+        sudo apt install -y file
+    
+    - name: Download Antlr4
+      shell: bash
+      run: |
+        cd /usr/local/lib
+        sudo curl -O https://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
+    
+    - name: Check content file
+      shell: bash
+      run: |
+        fileType=$(file -i /usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar)
+        if [[ ! "$fileType"  =~ "application/java-archive" ]]; then
+          echo "::error::File should be application/java-archive. Got: $fileType."
+          exit 1
+        fi
+    
     - name: Set up Antlr4
-      shell: bash -e {0}
-      run: sudo apt install -y antlr4
+      shell: bash
+      run: |
+        export CLASSPATH=.:/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH
+        sudo printf '#!/usr/bin/env bash\n\njava -Xmx500M -cp "/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH" org.antlr.v4.Tool\n' > /usr/local/bin/antlr4
+        sudo chmod ugo+x /usr/local/bin/antlr4
