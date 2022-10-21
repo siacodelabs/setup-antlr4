@@ -11,5 +11,5 @@ See [action.yaml](action.yaml).
 ```yaml
 steps:
   - name: Set up Antlr4
-    uses: siacodelabs/setup-antlr4@v1
+    uses: siacodelabs/setup-antlr4@v2
 ```
