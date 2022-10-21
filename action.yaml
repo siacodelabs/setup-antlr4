@@ -10,9 +10,9 @@ runs:
   using: composite
   steps:
     - name: Update APT information
-      shell: bash
+      shell: bash -e {0}
       run: sudo apt update
     
     - name: Set up Antlr4
-      shell: bash
+      shell: bash -e {0}
       run: sudo apt install -y antlr4
