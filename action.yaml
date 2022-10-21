@@ -46,9 +46,10 @@ runs:
     - name: Check content file
       shell: bash
       run: |
-        fileType=$(file -i antlr-${{ inputs.antlr4-version }}-complete.jar)
+        fileType=$(file -i /usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar)
         if [[ ! "$fileType"  =~ "application/java-archive" ]]; then
           echo "::error::File should be application/java-archive. Got: $fileType."
+          exit 1
         fi
     
     - name: Set up Antlr4
