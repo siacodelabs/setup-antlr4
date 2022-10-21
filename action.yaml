@@ -31,15 +31,25 @@ runs:
         java-version: "17"
         distribution: temurin
     
-    - name: Set up cURL
+    - name: Install dependencies
       shell: bash
-      run: sudo apt install -y curl
+      run: |
+        sudo apt install -y curl
+        sudo apt install -y file
     
     - name: Download Antlr4
       shell: bash
       run: |
         cd /usr/local/lib
-        sudo curl -O http://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
+        sudo curl -O https://www.antlr.org/download/antlr-${{ inputs.antlr4-version }}-complete.jar
+    
+    - name: Check content file
+      shell: bash
+      run: |
+        fileType=$(file -i antlr-${{ inputs.antlr4-version }}-complete.jar)
+        if [[ ! "$fileType"  =~ "application/java-archive" ]]; then
+          echo "::error::File should be application/java-archive. Got: $fileType."
+        fi
     
     - name: Set up Antlr4
       shell: bash
