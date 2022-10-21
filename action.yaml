@@ -47,4 +47,5 @@ runs:
         export CLASSPATH=.:/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH
         sudo printf '#!/usr/bin/env bash\njava -Xmx500M -cp "/usr/local/lib/antlr-${{ inputs.antlr4-version }}-complete.jar:$CLASSPATH" org.antlr.v4.Tool\n' > /usr/local/bin/antlr4
         sudo chmod ugo+x /usr/local/bin/antlr4
+        export PATH=/usr/local/bin:$PATH
     
