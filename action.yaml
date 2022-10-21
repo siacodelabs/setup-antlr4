@@ -11,8 +11,8 @@ runs:
   steps:
     - name: Update APT information
       shell: bash
-      run: apt update
+      run: sudo apt update
     
     - name: Set up Antlr4
       shell: bash
-      run: apt install -y antlr4
+      run: sudo apt install -y antlr4
