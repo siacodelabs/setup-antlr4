@@ -19,7 +19,7 @@ jobs:
       - name: Set up Antlr4
         uses: ./
 
-      - name: check installation
+      - name: Check installation
         run: |
           alias antlr4
           antlr4
