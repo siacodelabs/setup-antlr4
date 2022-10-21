@@ -27,6 +27,9 @@ runs:
     - name: Set up JDK
       if: inputs.setup-java
       uses: actions/setup-java@v3
+      with:
+        java-version: "15"
+        distribution: temurin
     
     - name: Set up cURL
       shell: bash
