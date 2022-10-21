@@ -10,7 +10,7 @@ inputs:
   antlr4-version:
     description: Antlr version to install.
     required: false
-    default: "4.11"
+    default: "4.11.1"
   
   setup-java:
     description: Install JDK.
