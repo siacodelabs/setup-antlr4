@@ -21,5 +21,4 @@ jobs:
 
       - name: Check installation
         run: |
-          alias antlr4
           antlr4
